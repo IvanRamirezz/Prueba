@@ -26,7 +26,8 @@ const email = data.user?.email;
 <Layout title="dashboard">
   <h1>Welcome {email}</h1>
   <p>We are happy to see you here</p>
-  <form action="/api/auth/signout" method="get">
+  <form method="post" action="/api/auth/signout">
     <button type="submit">Sign out</button>
   </form>
+
 </Layout>

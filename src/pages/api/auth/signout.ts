@@ -1,9 +1,14 @@
-// With `output: 'static'` configured:
-//export const prerender = false;
-import type { APIRoute } from "astro";
+import type { APIRoute } from 'astro';
+import { supabase } from '../../../lib/supabase'; // ajusta la ruta
 
-export const GET: APIRoute = async ({ cookies, redirect }) => {
-  cookies.delete("sb-access-token", { path: "/" });
-  cookies.delete("sb-refresh-token", { path: "/" });
-  return redirect("/signin");
+export const POST: APIRoute = async ({ redirect }) => {
+  const { error } = await supabase.auth.signOut();
+
+  if (error) {
+    console.error(error);
+    return new Response('Error al cerrar sesión', { status: 500 });
+  }
+
+  // Redirige a la página de login
+  return redirect('/signin');
 };
