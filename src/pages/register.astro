@@ -3,13 +3,72 @@ import Layout from "../layouts/Layout.astro";
 ---
 
 <Layout title="Register">
-  <h1>Register</h1>
-  <p>Already have an account? <a href="/signin">Sign in</a></p>
-  <form action="/api/auth/register" method="post">
-    <label for="email">Email</label>
-    <input type="email" name="email" id="email" />
-    <label for="password">Password</label>
-    <input type="password" name="password" id="password" />
-    <button type="submit">Register</button>
+  <h1>Registro</h1>
+  <p>¿Ya tienes una cuenta? <a href="/signin">Inicia sesión</a></p>
+
+  <form action="/api/auth/register" method="post" class="register-form">
+
+    <label for="nombre">Nombre(s) *</label>
+    <input type="text" name="nombre" id="nombre" required />
+
+    <label for="apellidoPaterno">Apellido paterno *</label>
+    <input type="text" name="apellidoPaterno" id="apellidoPaterno" required />
+
+    <label for="apellidoMaterno">Apellido materno</label>
+    <input type="text" name="apellidoMaterno" id="apellidoMaterno" />
+
+    <label for="boleta">Boleta *</label>
+    <input type="text" name="boleta" id="boleta" required />
+
+    <label for="grupo">Grupo *</label>
+    <input type="text" name="grupo" id="grupo" placeholder="3IV12, 6TM1, etc." required />
+
+    <label for="email">Correo electrónico *</label>
+    <input type="email" name="email" id="email" required />
+
+    <label for="password">Contraseña *</label>
+    <input type="password" name="password" id="password" required minlength="6" />
+
+    <label for="passwordConfirm">Confirmar contraseña *</label>
+    <input type="password" name="passwordConfirm" id="passwordConfirm" required minlength="6" />
+
+    <button type="submit">Crear cuenta</button>
   </form>
 </Layout>
+
+<style>
+  .register-form {
+    display: flex;
+    flex-direction: column;
+    max-width: 420px;
+    gap: 12px;
+  }
+
+  label {
+    font-weight: 600;
+    margin-top: 6px;
+  }
+
+  input {
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    font-size: 1rem;
+  }
+
+  button {
+    margin-top: 16px;
+    padding: 12px;
+    border-radius: 10px;
+    background: #2563eb;
+    color: white;
+    font-size: 1.1rem;
+    font-weight: bold;
+    border: none;
+    cursor: pointer;
+  }
+
+  button:hover {
+    background: #1e4ed8;
+  }
+</style>

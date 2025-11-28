@@ -10,6 +10,7 @@ if (!accessToken || !refreshToken) {
   return Astro.redirect("/signin");
 }
 
+// Restaurar sesión
 const { data, error } = await supabase.auth.setSession({
   refresh_token: refreshToken.value,
   access_token: accessToken.value,
@@ -21,13 +22,34 @@ if (error || !data.session) {
   return Astro.redirect("/signin");
 }
 
-const email = data.user?.email;
+// UID del usuario autenticado
+const authUid = data.user?.id;
+
+// Traer Nombre y Apellido_Paterno del usuario
+const { data: usuario, error: usuarioError } = await supabase
+  .from("Usuarios")
+  .select("Nombre, Apellido_Paterno")
+  .eq("auth_uid", authUid)
+  .maybeSingle();
+
+if (usuarioError) {
+  console.error("Error consultando usuario:", usuarioError);
+}
+
+// Construir el nombre completo
+let nombreCompleto;
+
+if (usuario) {
+  nombreCompleto = `${usuario.Nombre} ${usuario.Apellido_Paterno}`;
+} else {
+  nombreCompleto = data.user?.email; // fallback por si no existe
+}
 ---
 <Layout title="dashboard">
-  <h1>Welcome {email}</h1>
+  <h1>Welcome {nombreCompleto}</h1>
   <p>We are happy to see you here</p>
+
   <form method="post" action="/api/auth/signout">
     <button type="submit">Sign out</button>
   </form>
-
 </Layout>
